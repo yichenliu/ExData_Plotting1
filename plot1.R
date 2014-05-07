@@ -1,0 +1,11 @@
+setwd("C:/Project 1")
+dt<-read.table("household_power_consumption.txt",header=TRUE,sep=";",na.strings="?")
+dt[,1]<-as.Date(dt[,1],"%d/%m/%Y")
+dt<-rbind(dt[as.Date(dt[,1])=="2007-02-01",],dt[as.Date(dt[,1])=="2007-02-02",])
+Date_Time<-strptime(paste(dt[,1],dt[,2]), "%Y-%m-%d %H:%M:%S")
+dt<-cbind(Date_Time,dt[,c(3:9)]) 
+
+png(file="plot1.png")
+par(bg="transparent")
+hist(dt$Global_active_power,col="red",main="Global Active Power",xlab="Global Active Power (kilowatts)")
+dev.off()

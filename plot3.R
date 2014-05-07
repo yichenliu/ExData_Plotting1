@@ -1,0 +1,16 @@
+setwd("C:/Project 1")
+dt<-read.table("household_power_consumption.txt",header=TRUE,sep=";",na.strings="?")
+dt[,1]<-as.Date(dt[,1],"%d/%m/%Y")
+dt<-rbind(dt[as.Date(dt[,1])=="2007-02-01",],dt[as.Date(dt[,1])=="2007-02-02",])
+Date_Time<-strptime(paste(dt[,1],dt[,2]), "%Y-%m-%d %H:%M:%S")
+dt<-cbind(Date_Time,dt[,c(3:9)]) 
+
+
+png(file="plot3.png")
+par(bg="transparent")
+plot(dt$Date_Time,dt$Sub_metering_1,xlab="",ylab="Energy sub metering",type="n")
+lines(dt$Date_Time,dt$Sub_metering_1,col="black")
+lines(dt$Date_Time,dt$Sub_metering_2,col="red")
+lines(dt$Date_Time,dt$Sub_metering_3,col="blue")
+legend("topright",col=c("black","red","blue"),lty=c(1,1,1),legend=c("Sub_metering_1","Sub_metering_2","Sub_metering_3"))
+dev.off()
